@@ -1,26 +1,21 @@
-import { useState } from 'react';
 import BottomSheet from './BottomSheet';
 import { config } from "./util.tsx";
 import './index.css';
 
 const App = () => {
-    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div className="mobile-container">
             <div className="mobile-content">
-                <button
+                <a
+                    href={'/?step=1'}
                     className="open-button"
-                    onClick={() => setIsOpen(true)}
                 >
                     Open Bottom Sheet
-                </button>
+                </a>
 
                 <BottomSheet
                     config={config}
-                    isOpen={isOpen}
-                    initialStep={2}
-                    onClose={() => setIsOpen(false)}
                 />
             </div>
         </div>

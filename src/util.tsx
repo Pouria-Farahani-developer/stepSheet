@@ -1,6 +1,6 @@
 export const config = [
     {
-        keyName: 'page1',
+        keyName: '1',
         rendering: (
             <div>
                 <h2>First Step</h2>
@@ -11,7 +11,7 @@ export const config = [
         onBack: () => console.log('page1')
     },
     {
-        keyName: 'page2',
+        keyName: '2',
         rendering: (
             <div>
                 <h2>Second Step</h2>
@@ -22,7 +22,7 @@ export const config = [
         onBack: () => console.log('page2')
     },
     {
-        keyName: 'page3',
+        keyName: '3',
         rendering: (
             <div>
                 <h2>Third Step</h2>
@@ -33,7 +33,7 @@ export const config = [
         onBack: () => console.log('page3')
     },
     {
-        keyName: 'page4',
+        keyName: '4',
         rendering: (
             <div>
                 <h2>Fourth Step</h2>

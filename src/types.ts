@@ -8,7 +8,4 @@ export interface BottomSheetPage {
 
 export interface BottomSheetProps {
     config: BottomSheetPage[];
-    isOpen: boolean;
-    onClose: () => void;
-    initialStep?: number;
 }
