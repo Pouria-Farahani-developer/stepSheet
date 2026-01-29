@@ -1,17 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './index.css';
+import type {BottomSheetProps} from "./types.ts";
 
-interface BottomSheetPage {
-    keyName: string;
-    rendering: React.ReactNode;
-}
 
-interface BottomSheetProps {
-    config: BottomSheetPage[];
-    isOpen: boolean;
-    onClose: () => void;
-    initialStep?: number;
-}
+
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
                                                      config,
@@ -27,13 +19,16 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     const cleanupAndClose = () => {
         // کپی URL فعلی و حذف پارامتر step
         const cleanUrl = new URL(window.location.href);
+
         cleanUrl.searchParams.delete('step');
         cleanUrl.search = '';
         cleanUrl.hash = '';
 
         // قطع Forward و جایگزینی URL تمیز
         window.history.pushState({}, '', cleanUrl.toString());
-        window.history.replaceState({}, '', cleanUrl.toString());
+        window.location.replace(cleanUrl.toString());
+        // window.history.replaceState({}, '', cleanUrl.toString());
+
 
         // فراخوانی تابع Close
         onClose();
