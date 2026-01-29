@@ -25,11 +25,20 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
     // تعریف تابع cleanup قبل از استفاده در useEffect
     const cleanupAndClose = () => {
+        // کپی URL فعلی و حذف پارامتر step
         const cleanUrl = new URL(window.location.href);
         cleanUrl.searchParams.delete('step');
+        cleanUrl.search = '';
+        cleanUrl.hash = '';
+
+        // قطع Forward و جایگزینی URL تمیز
+        window.history.pushState({}, '', cleanUrl.toString());
         window.history.replaceState({}, '', cleanUrl.toString());
+
+        // فراخوانی تابع Close
         onClose();
     };
+
 
     // Push URL فقط برای صفحه اول - یک بار
     useEffect(() => {
