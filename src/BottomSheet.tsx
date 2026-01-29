@@ -96,13 +96,23 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         }
     }, [isOpen, initialStep]);
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (currentStep < config.length - 1) {
+            const currentPage = config[currentStep];
+            if (currentPage.onNext) {
+                await currentPage.onNext();
+            }
+
             setCurrentStep(prev => prev + 1);
         }
     };
 
-    const handleBack = () => {
+    const handleBack = async () => {
+        const currentPage = config[currentStep];
+        if (currentPage.onBack) {
+            await currentPage.onBack();
+        }
+
         window.history.back();
     };
 
