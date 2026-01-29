@@ -1,11 +1,10 @@
 import React from 'react';
 import './index.css';
-import {useNavigation} from "./useNavigation.tsx";
 import type {BottomSheetProps} from "./types.ts";
 
-const BottomSheet: React.FC<BottomSheetProps> = ({config}) => {
+const BottomSheet: React.FC<BottomSheetProps> = ({config , navigation}) => {
 
-   const {forwardStep , backwardStep , step} = useNavigation()
+    const {step , backwardStep , forwardStep} = navigation;
 
     if(step !== null){
         return (
@@ -22,9 +21,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({config}) => {
                         <div className="step-indicator">
                             {step} / {config.length}
                         </div>
-                        <button className="close-button">
-                            ✕
-                        </button>
+
                     </div>
 
                     <div className="bottom-sheet-content">

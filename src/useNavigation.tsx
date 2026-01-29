@@ -1,7 +1,8 @@
 import {useEffect, useReducer} from "react";
 import {config} from "./util.tsx";
+import type {navigationProps} from "./types.ts";
 
-export const useNavigation = () => {
+export const useNavigation  = () : navigationProps => {
     const [, fakeRerender] = useReducer(() => ({}), {});
 
     useEffect(() => {
@@ -36,9 +37,10 @@ export const useNavigation = () => {
 
                 window.history.pushState({}, '', newUrl.toString());
             } else {
-                newUrl.searchParams.set('step', `${step + 1}`);
+                const editedStep = step + 1;
+                newUrl.searchParams.set('step', `${editedStep}`);
                 window.history.pushState(
-                    { step: step, bottomSheet: true },
+                    { step: editedStep, bottomSheet: true },
                     '',
                     newUrl.toString()
                 )
@@ -55,10 +57,10 @@ export const useNavigation = () => {
         const newUrl = new URL(window.location.href);
         if(step !== null) {
             if(step > 1){
-
-                newUrl.searchParams.set('step', `${step - 1}`);
+                const editedStep = step - 1;
+                newUrl.searchParams.set('step', `${editedStep}`);
                 window.history.pushState(
-                    { step: step, bottomSheet: true },
+                    { step: editedStep, bottomSheet: true },
                     '',
                     newUrl.toString()
                 );
@@ -75,6 +77,20 @@ export const useNavigation = () => {
 
     }
 
-    return {backwardStep, forwardStep ,step};
+    const setCustomStep = (step: number) => {
+        const newUrl = new URL(window.location.href);
+
+        newUrl.searchParams.set('step', `${step}`);
+        window.history.pushState(
+            { step: step, bottomSheet: true },
+            '',
+            newUrl.toString()
+        )
+
+        fakeRerender()
+    }
+
+
+    return {backwardStep, forwardStep , setCustomStep ,step };
 
 }

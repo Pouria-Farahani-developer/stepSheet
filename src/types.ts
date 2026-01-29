@@ -6,6 +6,14 @@ export interface BottomSheetPage {
     onBack?: () => void | Promise<void>;
 }
 
+export interface navigationProps {
+    step: number | null;
+    forwardStep: () => void;
+    backwardStep: () => void;
+    setCustomStep: (step: number) => void;
+}
+
 export interface BottomSheetProps {
     config: BottomSheetPage[];
+    navigation : navigationProps;
 }
