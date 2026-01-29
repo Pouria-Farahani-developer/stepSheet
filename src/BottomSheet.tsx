@@ -20,29 +20,46 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
                                                      initialStep = 0
                                                  }) => {
     const [currentStep, setCurrentStep] = useState(initialStep);
-    const isInitialMount = useRef(true);
+    const hasInitialUrlPushed = useRef(false);
     const isNavigatingBack = useRef(false);
-    const initialUrl = useRef<string>('');
 
-    // Save initial URL and push first step when bottom sheet opens
+    // تعریف تابع cleanup قبل از استفاده در useEffect
+    const cleanupAndClose = () => {
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.searchParams.delete('step');
+        window.history.replaceState({}, '', cleanUrl.toString());
+        onClose();
+    };
+
+    // Push URL فقط برای صفحه اول - یک بار
     useEffect(() => {
-        if (isOpen && isInitialMount.current) {
-            // ذخیره URL اولیه بدون step
-            initialUrl.current = window.location.href;
-
+        if (isOpen && !hasInitialUrlPushed.current) {
             const newUrl = new URL(window.location.href);
-            newUrl.searchParams.set('step', config[currentStep].keyName);
-            window.history.pushState({ step: currentStep, bottomSheet: true }, '', newUrl.toString());
-            isInitialMount.current = false;
+            newUrl.searchParams.set('step', config[0].keyName);
+            window.history.pushState(
+                { step: 0, bottomSheet: true },
+                '',
+                newUrl.toString()
+            );
+            hasInitialUrlPushed.current = true;
         }
-    }, [isOpen, config, currentStep]);
+    }, [isOpen, config]);
 
-    // Push new URL when navigating forward
+    // Push URL برای صفحات 2 به بعد
     useEffect(() => {
-        if (isOpen && !isInitialMount.current && !isNavigatingBack.current) {
+        if (
+            isOpen &&
+            hasInitialUrlPushed.current &&
+            currentStep > 0 &&
+            !isNavigatingBack.current
+        ) {
             const newUrl = new URL(window.location.href);
             newUrl.searchParams.set('step', config[currentStep].keyName);
-            window.history.pushState({ step: currentStep, bottomSheet: true }, '', newUrl.toString());
+            window.history.pushState(
+                { step: currentStep, bottomSheet: true },
+                '',
+                newUrl.toString()
+            );
         }
         isNavigatingBack.current = false;
     }, [currentStep, isOpen, config]);
@@ -51,35 +68,24 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     useEffect(() => {
         const handlePopState = (event: PopStateEvent) => {
             if (event.state?.bottomSheet) {
-                // کاربر داره توی bottom sheet navigate میکنه
                 isNavigatingBack.current = true;
                 setCurrentStep(event.state.step);
             } else {
-                // کاربر از bottom sheet خارج شده
                 cleanupAndClose();
             }
         };
 
         window.addEventListener('popstate', handlePopState);
         return () => window.removeEventListener('popstate', handlePopState);
-    }, []);
+    }, [cleanupAndClose]);
 
     // Reset when closed
     useEffect(() => {
         if (!isOpen) {
             setCurrentStep(initialStep);
-            isInitialMount.current = true;
+            hasInitialUrlPushed.current = false;
         }
     }, [isOpen, initialStep]);
-
-    const cleanupAndClose = () => {
-        // پاک کردن step از URL
-        const cleanUrl = new URL(window.location.href);
-        cleanUrl.searchParams.delete('step');
-        window.history.replaceState({}, '', cleanUrl.toString());
-
-        onClose();
-    };
 
     const handleNext = () => {
         if (currentStep < config.length - 1) {
@@ -88,27 +94,14 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     };
 
     const handleBack = () => {
-        if (currentStep > 0) {
-            window.history.back();
-        } else {
-            // اگر در صفحه اول هستیم، یک بار برگردیم و بسته بشه
-            window.history.back();
-        }
+        window.history.back();
     };
 
     const handleClose = () => {
-        // برگشت به URL اولیه و بستن
+        // محاسبه تعداد step‌هایی که باید برگردیم
+        // اگر در صفحه 3 هستیم: step 3, step 2, step 1 = 3 تا
         const stepsToGoBack = currentStep + 1;
         window.history.go(-stepsToGoBack);
-
-        // اطمینان از پاک شدن step از URL
-        setTimeout(() => {
-            const cleanUrl = new URL(window.location.href);
-            cleanUrl.searchParams.delete('step');
-            window.history.replaceState({}, '', cleanUrl.toString());
-        }, 0);
-
-        onClose();
     };
 
     if (!isOpen) return null;
@@ -121,7 +114,6 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         <>
             <div className="bottom-sheet-overlay" onClick={handleClose} />
             <div className="bottom-sheet">
-                {/* Header */}
                 <div className="bottom-sheet-header">
                     <button
                         className="back-button"
@@ -137,12 +129,10 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
                     </button>
                 </div>
 
-                {/* Content */}
                 <div className="bottom-sheet-content">
                     {currentPage?.rendering}
                 </div>
 
-                {/* Footer Navigation */}
                 <div className="bottom-sheet-footer">
                     <button
                         className="btn-secondary"
