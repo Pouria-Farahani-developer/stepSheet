@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './index.css';
-import type {BottomSheetProps} from "./types.ts";
+import type { BottomSheetProps } from "./types.ts";
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
                                                      config,
@@ -8,11 +8,13 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
                                                      onClose,
                                                      initialStep = 0
                                                  }) => {
+
     const [currentStep, setCurrentStep] = useState(initialStep);
+
     const hasInitialUrlPushed = useRef(false);
     const isNavigatingBack = useRef(false);
 
-    const cleanupAndClose = () => {
+    const cleanupAndClose = useCallback(() => {
         const cleanUrl = new URL(window.location.href);
 
         cleanUrl.searchParams.delete('step');
@@ -23,7 +25,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         window.history.replaceState({}, '', cleanUrl.toString());
 
         onClose();
-    };
+    }, [onClose]);
 
 
     // Push URL فقط برای صفحه اول - یک بار
@@ -94,7 +96,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
     const handleClose = () => {
         // محاسبه تعداد step‌هایی که باید برگردیم
-        // اگر در صفحه 3 هستیم: step 3, step 2, step 1 = 3 تا
+        // اگر در صفحه 3 هستیم: step 3, step 2, step 1, step 0 = 4 تا
         const stepsToGoBack = currentStep + 1;
         window.history.go(-stepsToGoBack);
     };
@@ -113,6 +115,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
                     <button
                         className="back-button"
                         onClick={handleBack}
+                        disabled={isFirstPage}
                     >
                         ←
                     </button>
