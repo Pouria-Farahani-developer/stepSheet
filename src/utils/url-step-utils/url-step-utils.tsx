@@ -15,7 +15,12 @@ export const pushBaseUrl = (url: URL) => {
     window.history.pushState({}, '', url.toString());
 }
 
-export const updateStepQuery = (step: number, url: URL) => {
+export const replaceStepQuery = (step: number, url: URL) => {
+    url.searchParams.set(STEP, `${step}`);
+    window.history.go(-1);
+}
+
+export const pushStepQuery = (step: number, url: URL) => {
     url.searchParams.set(STEP, `${step}`);
     window.history.pushState(
         {},

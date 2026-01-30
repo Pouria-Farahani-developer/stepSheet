@@ -1,6 +1,13 @@
 import {useEffect, useReducer} from "react";
 import type {NavigationProps} from "../../types";
-import {getValidStep, pushBaseUrl, updateStepQuery, maxAllowedStep , STEP} from "../../utils";
+import {
+    getValidStep,
+    pushBaseUrl,
+    maxAllowedStep,
+    STEP,
+    pushStepQuery,
+    replaceStepQuery
+} from "../../utils";
 
 export const useUrlNavigation = (): NavigationProps => {
     const [, fakeRerender] = useReducer(() => ({}), {});
@@ -24,7 +31,7 @@ export const useUrlNavigation = (): NavigationProps => {
                 pushBaseUrl(newUrl);
             } else {
                 const stepQuery = step + 1;
-                updateStepQuery(stepQuery, newUrl)
+                pushStepQuery(stepQuery, newUrl)
             }
 
             fakeRerender();
@@ -39,10 +46,7 @@ export const useUrlNavigation = (): NavigationProps => {
         if (step !== null) {
             if (step > 1) {
                 const stepQuery = step - 1;
-
-                updateStepQuery(stepQuery, newUrl)
-
-
+                replaceStepQuery(stepQuery, newUrl)
             } else {
                 pushBaseUrl(newUrl)
             }
@@ -53,7 +57,7 @@ export const useUrlNavigation = (): NavigationProps => {
 
     const setCustomStep = (step: number) => {
         const newUrl = new URL(window.location.href);
-        updateStepQuery(step, newUrl)
+        pushStepQuery(step, newUrl)
         fakeRerender()
     }
 
