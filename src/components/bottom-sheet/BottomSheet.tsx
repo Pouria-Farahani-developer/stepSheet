@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../../index.css';
+import './BottomSheet.css';
 
 import type {BottomSheetProps} from "../../types/types.ts";
 

@@ -4,7 +4,7 @@ import {useUrlNavigation} from "../../hooks/use-url-navigation.tsx";
 import { config } from "../../utils/util.tsx";
 
 import BottomSheet from '../bottom-sheet/BottomSheet.tsx';
-import '../../index.css';
+import './App.css';
 
 const App = () => {
 
@@ -16,7 +16,7 @@ const App = () => {
         <div className="mobile-container">
             <div className="mobile-content">
                 <button
-                    // onClick={() => navigation.setCustomStep(2)}
+                    onClick={() => navigation.setCustomStep(1)}
                     className="open-button"
                 >
                     Open Bottom Sheet
