@@ -1,8 +1,10 @@
-import BottomSheet from './BottomSheet';
-import { config } from "./util.tsx";
-import './index.css';
-import {useUrlNavigation} from "./use-url-navigation.tsx";
+import {useUrlNavigation} from "../../hooks/use-url-navigation.tsx";
 // import {useLocalStorageNavigation} from "./use-local-storage-navigation.tsx";
+
+import { config } from "../../utils/util.tsx";
+
+import BottomSheet from '../bottom-sheet/BottomSheet.tsx';
+import '../../index.css';
 
 const App = () => {
 
@@ -14,7 +16,7 @@ const App = () => {
         <div className="mobile-container">
             <div className="mobile-content">
                 <button
-                    onClick={() => navigation.setCustomStep(2)}
+                    // onClick={() => navigation.setCustomStep(2)}
                     className="open-button"
                 >
                     Open Bottom Sheet

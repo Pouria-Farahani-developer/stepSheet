@@ -1,6 +1,8 @@
 import React from 'react';
-import './index.css';
-import type {BottomSheetProps} from "./types.ts";
+
+import '../../index.css';
+
+import type {BottomSheetProps} from "../../types/types.ts";
 
 const BottomSheet: React.FC<BottomSheetProps> = ({config , navigation}) => {
 
@@ -22,7 +24,6 @@ const BottomSheet: React.FC<BottomSheetProps> = ({config , navigation}) => {
                         <div className="step-indicator">
                             {step} / {config.length}
                         </div>
-
                     </div>
 
                     <div className="bottom-sheet-content">
@@ -40,7 +41,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({config , navigation}) => {
                             className="btn-primary"
                             onClick={() => forwardStep()}
                         >
-                            {'Next'}
+                            Next
                         </button>
                     </div>
                 </div>

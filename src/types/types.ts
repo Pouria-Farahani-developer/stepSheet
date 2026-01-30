@@ -1,5 +1,4 @@
-// types.ts
-export interface BottomSheetPage {
+export interface BottomSheetStep{
     keyName: string;
     rendering: React.ReactNode;
     onNext?: () => void | Promise<void>;
@@ -14,6 +13,6 @@ export interface navigationProps {
 }
 
 export interface BottomSheetProps {
-    config: BottomSheetPage[];
+    config: BottomSheetStep[];
     navigation : navigationProps;
 }

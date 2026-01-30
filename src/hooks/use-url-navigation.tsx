@@ -1,6 +1,6 @@
 import {useEffect, useReducer} from "react";
-import {config} from "./util.tsx";
-import type {navigationProps} from "./types.ts";
+import {config} from "../utils/util.tsx";
+import type {navigationProps} from "../types/types.ts";
 
 export const useUrlNavigation  = () : navigationProps => {
     const [, fakeRerender] = useReducer(() => ({}), {});
