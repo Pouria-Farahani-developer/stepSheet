@@ -15,21 +15,24 @@ const App = () => {
     // const navigation = useLocalStorageNavigation()
 
     return (
-        <div className={styles['mobile-container']}>
-            <div className={styles['mobile-content']}>
-                <button
-                    onClick={() => navigation.setCustomStep(INITIAL_STEP)}
-                    className={styles['open-button']}
-                >
-                    Open Bottom Sheet
-                </button>
+        <div className={styles['mobile-wrapper']}>
+            <div className={styles['mobile-container']}>
 
-                <BottomSheet
-                    config={config}
-                    navigation={navigation}
-                />
+                <div className={styles['mobile-content']}>
+                    <button
+                        onClick={() => navigation.setCustomStep(INITIAL_STEP)}
+                        className={styles['open-button']}
+                    >
+                        Open Bottom Sheet
+                    </button>
+                    <BottomSheet
+                        config={config}
+                        navigation={navigation}
+                    />
+                </div>
             </div>
         </div>
+
     );
 };
 
