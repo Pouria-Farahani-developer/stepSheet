@@ -8,7 +8,7 @@ export default defineConfig({
         VitePWA({
             registerType: 'autoUpdate',
             devOptions: {
-                enabled: true // برای تست در حالت development
+                enabled: true
             },
             manifest: {
                 name: 'Bottom Sheet Navigation',
@@ -41,7 +41,7 @@ export default defineConfig({
                             cacheName: 'images-cache',
                             expiration: {
                                 maxEntries: 50,
-                                maxAgeSeconds: 30 * 24 * 60 * 60 // 30 روز
+                                maxAgeSeconds: 30 * 24 * 60 * 60
                             }
                         }
                     }
