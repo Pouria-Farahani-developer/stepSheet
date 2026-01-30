@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './BottomSheet.css';
+import styles from './BottomSheet.module.css';
 
 import type {BottomSheetProps} from "../../types/types.ts";
 
@@ -12,33 +12,33 @@ const BottomSheet: React.FC<BottomSheetProps> = ({config , navigation}) => {
     if(step !== null){
         return (
             <>
-                <div className="bottom-sheet-overlay"  />
-                <div className="bottom-sheet">
-                    <div className="bottom-sheet-header">
+                <div className={styles['bottom-sheet-overlay']}  />
+                <div className={styles['bottom-sheet']}>
+                    <div className={styles['bottom-sheet-header']}>
                         <button
-                            className="back-button"
+                            className={styles['back-button']}
                             onClick={() => backwardStep()}
                         >
                             ←
                         </button>
-                        <div className="step-indicator">
+                        <div className={styles['step-indicator']}>
                             {step} / {config.length}
                         </div>
                     </div>
 
-                    <div className="bottom-sheet-content">
+                    <div className={styles['bottom-sheet-content']}>
                         {config[step - 1]?.rendering}
                     </div>
 
-                    <div className="bottom-sheet-footer">
+                    <div className={styles['bottom-sheet-footer']}>
                         <button
-                            className="btn-secondary"
+                            className={styles['btn-secondary']}
                             onClick={() => backwardStep()}
                         >
                             Before
                         </button>
                         <button
-                            className="btn-primary"
+                            className={styles['btn-primary']}
                             onClick={() => forwardStep()}
                         >
                             Next
