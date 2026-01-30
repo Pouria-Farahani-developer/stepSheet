@@ -17,12 +17,6 @@ const BottomSheet: React.FC<BottomSheetProps> = ({config , navigation}) => {
 
                 <div className={styles['bottom-sheet']}>
                     <div className={styles['bottom-sheet-header']}>
-                        <button
-                            className={styles['back-button']}
-                            onClick={() => backwardStep()}
-                        >
-                            ←
-                        </button>
                         <div className={styles['step-indicator']}>
                             {step} / {config.length}
                         </div>

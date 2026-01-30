@@ -27,7 +27,7 @@
 
 .bottom-sheet-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 1.6rem 2rem;
     border-bottom: 1px solid #e0e0e0;
@@ -203,7 +203,6 @@
     .bottom-sheet-overlay,
     .bottom-sheet,
     .back-button,
-    .close-button,
     .btn-primary,
     .btn-secondary {
         animation: none;
